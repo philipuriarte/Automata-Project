@@ -57,6 +57,12 @@ def convert_cfg_to_pda(cfg):
 
 # Streamlit interface
 def main():
+    # Set page title and icon
+    st.set_page_config(
+        page_title="Automata Project",
+        page_icon="🔀"
+    )
+
     # Create container to group blocks of code
     title_con = st.container()
     sample_con = st.container()
