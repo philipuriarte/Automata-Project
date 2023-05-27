@@ -1,10 +1,14 @@
 # Automata Project
-This project is a web application that allows users to convert regular expressions to Deterministic Finite Automata (DFA) and Context-Free Grammars (CFG) to Pushdown Automata (PDA). It provides a user-friendly interface to simplify automata conversion tasks.
+This project is a web application that will convert the given regular expressions below to Deterministic Finite Automata (DFA) and Context-Free Grammars (CFG) to Pushdown Automata (PDA).
+
+**Regular Expressions**
+1. `(aba+bab) (a+b)* (bab) (a+b)* (a+b+ab+ba) (a+b+aa)*`
+2. `((101 + 111 + 101) + (1+0+11)) (1 + 0 + 01)* (111 + 000 + 101) (1+0)*`
 
 ## Features
-- Conversion of Regular Expressions to DFAs: Enter a regular expression and convert it to a DFA.
+- Conversion of Regular Expressions to DFAs: Easily convert the provided regular expressions to their corresponding DFA representations.
+- String Validation: Enter a string and check if it is valid for the DFA. The application will animate the DFA's state transitions, highlighting correct and incorrect paths.
 - Conversion of CFGs to PDAs: Enter a Context-Free Grammar (CFG) and convert it to a PDA.
-- Graphical Visualization: Visualize the generated DFA or PDA using the Graphviz library.
 
 ## Technologies Used
 - Python: Backend logic and conversion algorithms are implemented in Python.
