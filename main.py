@@ -81,8 +81,13 @@ def main():
         st.title("Automata Project")
         st.markdown(
             '''
-            This project is a web application that allows you to convert regular expressions to Deterministic Finite Automata (DFA) 
-            and Context-Free Grammars (CFG) to Pushdown Automata (PDA). Simplify your automata conversion tasks with just a few clicks!
+            This project is a web application that will convert the given regular expressions below to Deterministic Finite Automata (DFA) 
+            and Context-Free Grammars (CFG) to Pushdown Automata (PDA).
+
+            **Regular Expressions**
+            1. `(aba+bab) (a+b)* (bab) (a+b)* (a+b+ab+ba) (a+b+aa)*`
+            2. `((101 + 111 + 101) + (1+0+11)) (1 + 0 + 01)* (111 + 000 + 101) (1+0)*`
+
             '''
             )
 
