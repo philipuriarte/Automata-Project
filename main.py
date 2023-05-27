@@ -1,4 +1,42 @@
 import streamlit as st
+from graphviz import Digraph
+
+
+# Define a sample DFA
+sample_dfa = {
+    "nodes": ["A", "B", "C"],
+    "alphabet": ["0", "1"],
+    "start_state": "A",
+    "accept_states": ["C"],
+    "transitions": {
+        ("A", "0"): "B",
+        ("A", "1"): "A",
+        ("B", "0"): "B",
+        ("B", "1"): "C",
+        ("C", "0"): "B",
+        ("C", "1"): "A"
+    }
+}
+
+
+# Generate DFA visualization using Graphviz
+def generate_dfa_visualization(dfa):
+    dot = Digraph()
+
+    # Add nodes
+    for node in dfa["nodes"]:
+        if node in dfa["accept_states"]:
+            dot.node(node, shape="doublecircle")
+        else:
+            dot.node(node, shape="circle")
+
+    # Add edges/transitions
+    for transition, target_state in dfa["transitions"].items():
+        source_state, symbol = transition
+        dot.edge(source_state, target_state, label=symbol)
+
+    # Return the Graphviz source code for the DFA visualization
+    return dot.source
 
 
 # Convert Regex to DFA function
@@ -21,6 +59,7 @@ def convert_cfg_to_pda(cfg):
 def main():
     # Create container to group blocks of code
     title_con = st.container()
+    sample_con = st.container()
     regex_to_dfa_con = st.container()
     cfg_to_pda_con = st.container()
 
@@ -33,6 +72,19 @@ def main():
             and Context-Free Grammars (CFG) to Pushdown Automata (PDA). Simplify your automata conversion tasks with just a few clicks!
             '''
             )
+
+    # Code block to test if graphviz is able to display DFA's with streamlit
+    with sample_con:
+        st.subheader("Sample DFA Visualization")
+
+        col1, col2 = st.columns(2)
+        with col1:
+            st.write("**Regex**:")
+            st.write("(0+1)*1(0+1)")
+        with col2:
+            st.write("**DFA**:")
+            dfa_visualization = generate_dfa_visualization(sample_dfa)
+            st.graphviz_chart(dfa_visualization)
         st.divider()
 
     # Code block for regex to dfa feature
