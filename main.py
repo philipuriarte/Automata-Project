@@ -74,15 +74,15 @@ def main():
     if "disabled" not in st.session_state:
         st.session_state.disabled = True
     
-    if "text" not in st.session_state:
-        st.session_state.text = ""
-    
     # callback for regex_input
     def regex_input_callbk():
         if st.session_state.regex_input == "--- Select ---":
             st.session_state.disabled = True
         else:
             st.session_state.disabled = False
+        
+        st.session_state.string_input = ""
+    
 
     # Create container to group blocks of code
     title_con = st.container()
@@ -131,8 +131,9 @@ def main():
             '''
             )
         
-        regex_input = st.selectbox("Select a Regular Expression", regex_options, on_change=regex_input_callbk, key="regex_input")
-        string_input = st.text_input("Enter a string to check its validity for selected regex", disabled=st.session_state.disabled)
+        # Input Widgets
+        regex_input = st.selectbox("Select a Regular Expression", regex_options, key="regex_input", on_change=regex_input_callbk)
+        string_input = st.text_input("Enter a string to check its validity for selected regex", key="string_input", disabled=st.session_state.disabled)
         validity_button = st.button("Check Validity", disabled=st.session_state.disabled)
         
         # Output for regex_input, display dfa of converted selected regex
@@ -150,7 +151,7 @@ def main():
                 st.write("*Display Animation*")
                 st.write("String Validation not implemented yet")
 
-        st.divider()
+    #    st.divider()
     
     # Code block for cfg to pda feature
     # with cfg_to_pda_con:
