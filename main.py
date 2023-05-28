@@ -19,7 +19,8 @@ sample_dfa = {
 }
 
 # List of regular expressions assigned to our group
-given_regex = [
+regex_options = [
+    "--- Select ---",
     "(aba+bab) (a+b)* (bab) (a+b)* (a+b+ab+ba) (a+b+aa)*",
     "((101 + 111 + 101) + (1+0+11)) (1 + 0 + 01)* (111 + 000 + 101) (1+0)*"
 ]
@@ -69,9 +70,23 @@ def main():
         page_icon="🔀"
     )
 
+    # Add streamlit session state values
+    if "disabled" not in st.session_state:
+        st.session_state.disabled = True
+    
+    if "text" not in st.session_state:
+        st.session_state.text = ""
+    
+    # callback for regex_input
+    def regex_input_callbk():
+        if st.session_state.regex_input == "--- Select ---":
+            st.session_state.disabled = True
+        else:
+            st.session_state.disabled = False
+
     # Create container to group blocks of code
     title_con = st.container()
-    sample_expander = st.expander("See Sample DFA Visualization")
+    sample_expander = st.expander("See Sample")
     st.divider()
     regex_to_dfa_con = st.container()
     cfg_to_pda_con = st.container()
@@ -93,7 +108,7 @@ def main():
 
     # Code block to test if graphviz is able to display DFA's with streamlit
     with sample_expander:
-        st.subheader("Sample DFA Visualization")
+        st.write("**DFA Visualization Using Graphviz Library**")
 
         col1, col2 = st.columns(2)
         with col1:
@@ -109,31 +124,31 @@ def main():
         st.subheader("Regex to DFA Converter")
         st.markdown(
             '''
-            1. Select a given Regex from the select box.
-            2. The application will perform the conversion and display the resulting DFA on the screen.
+            1. Select a given Regex from the select box. The application will perform the conversion and display 
+            the resulting DFA on the screen.            
+            2. Enter a string to check if it is a valid string for the DFA and then the program will check the 
+            validity of the string by checking each state.
             '''
             )
         
-        regex_input = st.selectbox("Select Given Regex", given_regex)
+        regex_input = st.selectbox("Select a Regular Expression", regex_options, on_change=regex_input_callbk, key="regex_input")
+        string_input = st.text_input("Enter a string to check its validity for selected regex", disabled=st.session_state.disabled)
+        validity_button = st.button("Check Validity", disabled=st.session_state.disabled)
+        
+        # Output for regex_input, display dfa of converted selected regex
+        if regex_input != "--- Select ---":
+            dfa = convert_regex_to_dfa(regex_input)
+            st.write(dfa)
 
-        dfa = convert_regex_to_dfa(regex_input)
-        st.write("**DFA**:")
-        st.write("*insert dfa for selected regex*")
-        st.write(dfa)
-
-        st.write("**String Input Validity Checker**")
-        st.markdown(
-            '''
-            1. Enter a string to check if it is a valid string for the DFA.
-            2. The application will check the validity of the string through an animation checking each state.
-            '''
-            )
-        string_input = st.text_input("Enter a string")
-
-        if st.button("Check Validity"):
-            dfa = convert_regex_to_dfa(string_input)
-            st.write("*Display Animation*")
-            st.write("String Validation not implemented yet")
+        # Output for string_input, play validation animation on displayed dfa
+        if validity_button:
+            if string_input == "":
+                st.warning("Please enter a string to validate first")
+            else:
+                st.write("Success!")
+                dfa = convert_regex_to_dfa(string_input)
+                st.write("*Display Animation*")
+                st.write("String Validation not implemented yet")
 
         st.divider()
     
