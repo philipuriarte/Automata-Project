@@ -181,7 +181,7 @@ def main():
             dfa = generate_dfa_visualization(dfa_1)
             st.graphviz_chart(dfa)
         elif regex_input == "((101 + 111 + 101) + (1+0+11)) (1 + 0 + 01)* (111 + 000 + 101) (1+0)*":
-            dfa = generate_dfa_visualization(dfa_2)            
+            dfa = generate_dfa_visualization(dfa_2)
             st.graphviz_chart(dfa)
 
         # Output for string_input, play validation animation on displayed dfa
@@ -192,27 +192,6 @@ def main():
                 st.write("Success!")
                 st.write("*Display Animation*")
                 st.write("String Validation not implemented yet")
-
-    #    st.divider()
-    
-    # Code block for cfg to pda feature
-    # with cfg_to_pda_con:
-    #     st.write("***STILL UNDER DEVELOPMENT***")
-    #     st.subheader("CFG to PDA Converter")
-    #     st.markdown(
-    #         '''
-    #         1. Enter your Context-Free Grammar (CFG) in the provided input field.
-    #         2. Click the "Convert to PDA" button.
-    #         3. The application will perform the conversion and display the resulting Pushdown Automaton (PDA) on the screen.
-    #         '''
-    #         )
-
-    #     cfg_input = st.text_input("Enter CFG")
-
-    #     if st.button("Convert to PDA"):
-    #         cfg = convert_cfg_to_pda(cfg_input)
-    #         st.write("CFG:")
-    #         st.write(cfg)
 
 
 if __name__ == "__main__":
