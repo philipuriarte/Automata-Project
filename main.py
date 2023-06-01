@@ -18,6 +18,7 @@ sample_dfa = {
     }
 }
 
+# DFA for (aba+bab) (a+b)* (bab) (a+b)* (a+b+ab+ba) (a+b+aa)*
 dfa_1 = {
     "nodes": ["q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q9", "q10", "q11", "T"],
     "alphabet": ["a", "b"],
@@ -49,6 +50,30 @@ dfa_1 = {
     }
 }
 
+# DFA for ((101 + 111 + 101) + (1+0+11)) (1 + 0 + 01)* (111 + 000 + 101) (1+0)*
+dfa_2 = {
+    "nodes": ["q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8"],
+    "alphabet": ["1", "0"],
+    "start_state": "q1",
+    "end_states": ["q8"],
+    "transitions": {
+        ("q1", "0,1"): "q2",
+        ("q2", "1"): "q3",
+        ("q2", "0"): "q4",
+        ("q3", "0"): "q5",
+        ("q3", "1"): "q6",
+        ("q4", "1"): "q3",
+        ("q4", "0"): "q7",
+        ("q5", "1"): "q8",
+        ("q5", "0"): "q7",
+        ("q6", "0"): "q5",
+        ("q6", "1"): "q8",
+        ("q7", "1"): "q3",
+        ("q7", "0"): "q8",
+        ("q8", "0,1"): "q8",
+    }
+}
+
 # List of regular expressions assigned to our group
 regex_options = [
     "--- Select ---",
@@ -59,7 +84,7 @@ regex_options = [
 
 # Generate DFA visualization using Graphviz
 def generate_dfa_visualization(dfa):
-    dot = Digraph(engine="neato", graph_attr={'rankdir': 'LR'})
+    dot = Digraph(engine="dot", graph_attr={'rankdir': 'LR'}, renderer="gd")
 
     # Add nodes
     for node in dfa["nodes"]:
@@ -74,7 +99,7 @@ def generate_dfa_visualization(dfa):
         dot.edge(source_state, target_state, label=symbol)
 
     # Return the Graphviz source code for the DFA visualization
-    return dot.source
+    return dot
 
 
 # Streamlit interface
@@ -154,6 +179,9 @@ def main():
         # Output for regex_input, display dfa of converted selected regex
         if regex_input == "(aba+bab) (a+b)* (bab) (a+b)* (a+b+ab+ba) (a+b+aa)*":
             dfa = generate_dfa_visualization(dfa_1)
+            st.graphviz_chart(dfa)
+        elif regex_input == "((101 + 111 + 101) + (1+0+11)) (1 + 0 + 01)* (111 + 000 + 101) (1+0)*":
+            dfa = generate_dfa_visualization(dfa_2)            
             st.graphviz_chart(dfa)
 
         # Output for string_input, play validation animation on displayed dfa
