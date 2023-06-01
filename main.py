@@ -7,7 +7,7 @@ sample_dfa = {
     "nodes": ["A", "B", "C"],
     "alphabet": ["0", "1"],
     "start_state": "A",
-    "accept_states": ["C"],
+    "end_states": ["C"],
     "transitions": {
         ("A", "0"): "B",
         ("A", "1"): "A",
@@ -15,6 +15,37 @@ sample_dfa = {
         ("B", "1"): "C",
         ("C", "0"): "B",
         ("C", "1"): "A"
+    }
+}
+
+dfa_1 = {
+    "nodes": ["q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q9", "q10", "q11", "T"],
+    "alphabet": ["a", "b"],
+    "start_state": "q1",
+    "end_states": ["q10", "q11"],
+    "transitions": {
+        ("q1", "a"): "q2",
+        ("q2", "b"): "q3",
+        ("q3", "a"): "q6",
+        ("q1", "b"): "q4",
+        ("q4", "a"): "q5",
+        ("q5", "b"): "q6",
+        ("q2", "a"): "T",
+        ("q3", "b"): "T",
+        ("q4", "b"): "T",
+        ("q5", "a"): "T",
+        ("q6", "a"): "q6",
+        ("q6", "b"): "q7",
+        ("q7", "b"): "q7",
+        ("q7", "a"): "q8",
+        ("q8", "a"): "q6",
+        ("q8", "b"): "q9",
+        ("q9", "a"): "q10",
+        ("q9", "b"): "q11",
+        ("q10", "a"): "q10",
+        ("q11", "b"): "q11",
+        ("q10", "b"): "q11",
+        ("q11", "a"): "q10",
     }
 }
 
@@ -28,11 +59,11 @@ regex_options = [
 
 # Generate DFA visualization using Graphviz
 def generate_dfa_visualization(dfa):
-    dot = Digraph()
+    dot = Digraph(engine="neato", graph_attr={'rankdir': 'LR'})
 
     # Add nodes
     for node in dfa["nodes"]:
-        if node in dfa["accept_states"]:
+        if node in dfa["end_states"]:
             dot.node(node, shape="doublecircle")
         else:
             dot.node(node, shape="circle")
@@ -46,22 +77,6 @@ def generate_dfa_visualization(dfa):
     return dot.source
 
 
-# Convert Regex to DFA function
-def convert_regex_to_dfa(regex):
-    # Placeholder implementation
-    # Replace with actual conversion logic
-    dfa = "Regex to DFA conversion not implemented yet"
-    return dfa
-
-
-# Convert CFG to PDA function
-def convert_cfg_to_pda(cfg):
-    # Placeholder implementation
-    # Replace with actual conversion logic
-    pda = "CFG to PDA conversion not implemented yet"
-    return pda
-
-
 # Streamlit interface
 def main():
     # Set page title and icon
@@ -70,11 +85,11 @@ def main():
         page_icon="🔀"
     )
 
-    # Add streamlit session state values
+    # Initialize streamlit session state values
     if "disabled" not in st.session_state:
         st.session_state.disabled = True
     
-    # callback for regex_input
+    # Callback function for regex_input
     def regex_input_callbk():
         if st.session_state.regex_input == "--- Select ---":
             st.session_state.disabled = True
@@ -106,7 +121,7 @@ def main():
             '''
             )
 
-    # Code block to test if graphviz is able to display DFA's with streamlit
+    # Code block to test if graphviz is able to display a DFA with streamlit
     with sample_expander:
         st.write("**DFA Visualization Using Graphviz Library**")
 
@@ -137,9 +152,9 @@ def main():
         validity_button = st.button("Check Validity", disabled=st.session_state.disabled)
         
         # Output for regex_input, display dfa of converted selected regex
-        if regex_input != "--- Select ---":
-            dfa = convert_regex_to_dfa(regex_input)
-            st.write(dfa)
+        if regex_input == "(aba+bab) (a+b)* (bab) (a+b)* (a+b+ab+ba) (a+b+aa)*":
+            dfa = generate_dfa_visualization(dfa_1)
+            st.graphviz_chart(dfa)
 
         # Output for string_input, play validation animation on displayed dfa
         if validity_button:
@@ -147,7 +162,6 @@ def main():
                 st.warning("Please enter a string to validate first")
             else:
                 st.write("Success!")
-                dfa = convert_regex_to_dfa(string_input)
                 st.write("*Display Animation*")
                 st.write("String Validation not implemented yet")
 
