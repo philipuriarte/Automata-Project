@@ -2,22 +2,6 @@ import streamlit as st
 from graphviz import Digraph
 
 
-# Define a sample DFA
-sample_dfa = {
-    "nodes": ["A", "B", "C"],
-    "alphabet": ["0", "1"],
-    "start_state": "A",
-    "end_states": ["C"],
-    "transitions": {
-        ("A", "0"): "B",
-        ("A", "1"): "A",
-        ("B", "0"): "B",
-        ("B", "1"): "C",
-        ("C", "0"): "B",
-        ("C", "1"): "A"
-    }
-}
-
 # DFA for (aba+bab) (a+b)* (bab) (a+b)* (a+b+ab+ba) (a+b+aa)*
 dfa_1 = {
     "nodes": ["q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q9", "q10", "q11", "T"],
@@ -101,6 +85,10 @@ def generate_dfa_visualization(dfa):
     # Return the Graphviz source code for the DFA visualization
     return dot
 
+# Validate DFA through an animation going through each state
+def validate_dfa(dfa):
+    pass
+
 
 # Streamlit interface
 def main():
@@ -145,19 +133,6 @@ def main():
 
             '''
             )
-
-    # Code block to test if graphviz is able to display a DFA with streamlit
-    with sample_expander:
-        st.write("**DFA Visualization Using Graphviz Library**")
-
-        col1, col2 = st.columns(2)
-        with col1:
-            st.write("**Regex**:")
-            st.write("(0+1)*1(0+1)")
-        with col2:
-            st.write("**DFA**:")
-            dfa_visualization = generate_dfa_visualization(sample_dfa)
-            st.graphviz_chart(dfa_visualization)
 
     # Code block for regex to dfa feature
     with regex_to_dfa_con:
