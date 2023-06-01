@@ -149,7 +149,7 @@ def main():
         # Input Widgets
         regex_input = st.selectbox("Select a Regular Expression", regex_options, key="regex_input", on_change=regex_input_callbk)
         string_input = st.text_input("Enter a string to check its validity for selected regex", key="string_input", disabled=st.session_state.disabled)
-        validity_button = st.button("Check Validity", disabled=st.session_state.disabled)
+        validity_button = st.button("Validate", disabled=st.session_state.disabled)
         
         # Output for regex_input, display dfa of converted selected regex
         if regex_input == "(aba+bab) (a+b)* (bab) (a+b)* (a+b+ab+ba) (a+b+aa)*":
@@ -161,9 +161,11 @@ def main():
 
         # Output for string_input, play validation animation on displayed dfa
         if validity_button:
-            if string_input == "":
+            string_input.strip()
+            if len(string_input) == 0:
                 st.warning("Please enter a string to validate first")
             else:
+                st.write("Entered String: ", string_input)
                 st.write("Success!")
                 st.write("*Display Animation*")
                 st.write("String Validation not implemented yet")
