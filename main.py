@@ -2,6 +2,13 @@ import streamlit as st
 from graphviz import Digraph
 
 
+# List of regular expressions assigned to our group
+regex_options = [
+    "--- Select ---",
+    "(aba+bab) (a+b)* (bab) (a+b)* (a+b+ab+ba) (a+b+aa)*",
+    "((101 + 111 + 101) + (1+0+11)) (1 + 0 + 01)* (111 + 000 + 101) (1+0)*"
+]
+
 # DFA for (aba+bab) (a+b)* (bab) (a+b)* (a+b+ab+ba) (a+b+aa)*
 dfa_1 = {
     "nodes": ["q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q9", "q10", "q11", "T"],
@@ -76,12 +83,11 @@ cfg_2 = '''
         Z -> 1Z | 0Z | ^
         '''
 
-# List of regular expressions assigned to our group
-regex_options = [
-    "--- Select ---",
-    "(aba+bab) (a+b)* (bab) (a+b)* (a+b+ab+ba) (a+b+aa)*",
-    "((101 + 111 + 101) + (1+0+11)) (1 + 0 + 01)* (111 + 000 + 101) (1+0)*"
-]
+# PDA image for (aba+bab) (a+b)* (bab) (a+b)* (a+b+ab+ba) (a+b+aa)*
+pda_1 = "*insert PDA image*" # replace with pda image
+
+# PDA image for ((101 + 111 + 101) + (1+0+11)) (1 + 0 + 01)* (111 + 000 + 101) (1+0)*
+pda_2 = "*insert PDA image*" # replace with pda image
 
 
 # Generate DFA visualization using Graphviz
@@ -177,7 +183,7 @@ def main():
                 st.write("**Context Free Grammar**")
                 st.markdown(cfg_1)                
                 st.write("**Pushdown Automata**")
-                st.write("*insert PDA image*")
+                st.write(pda_2)
         elif regex_input == "((101 + 111 + 101) + (1+0+11)) (1 + 0 + 01)* (111 + 000 + 101) (1+0)*":
             dfa = generate_dfa_visualization(dfa_2)
             st.graphviz_chart(dfa)
@@ -186,7 +192,7 @@ def main():
                 st.write("**Context Free Grammar**")
                 st.markdown(cfg_2)                
                 st.write("**Pushdown Automata**")
-                st.write("*insert PDA image*")
+                st.write(pda_2)
 
         # Output for string_input, play validation animation on displayed dfa
         if validity_button:
