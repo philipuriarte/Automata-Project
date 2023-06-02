@@ -85,8 +85,8 @@ def generate_dfa_visualization(dfa):
     # Return the Graphviz source code for the DFA visualization
     return dot
 
-# Validate DFA through an animation going through each state
-def validate_dfa(dfa):
+# Validate given string for DFA through an animation going through each state
+def validate_dfa(dfa, string):
     pass
 
 
@@ -114,7 +114,6 @@ def main():
 
     # Create container to group blocks of code
     title_con = st.container()
-    sample_expander = st.expander("See Sample")
     st.divider()
     regex_to_dfa_con = st.container()
     cfg_to_pda_con = st.container()
@@ -162,6 +161,7 @@ def main():
         # Output for string_input, play validation animation on displayed dfa
         if validity_button:
             string_input.strip()
+
             if len(string_input) == 0:
                 st.warning("Please enter a string to validate first")
             else:
