@@ -116,7 +116,7 @@ def main():
     title_con = st.container()
     st.divider()
     regex_to_dfa_con = st.container()
-    cfg_to_pda_con = st.container()
+    cfg_and_pda_exp = st.expander("Show CFG and PDA Conversion")
 
     # Code block for title and description
     with title_con:
@@ -154,9 +154,23 @@ def main():
         if regex_input == "(aba+bab) (a+b)* (bab) (a+b)* (a+b+ab+ba) (a+b+aa)*":
             dfa = generate_dfa_visualization(dfa_1)
             st.graphviz_chart(dfa)
+
+            with cfg_and_pda_exp:
+                st.write(regex_input)
+                st.write("**Context Free Grammar**")
+                st.write("*insert CFG image*")
+                st.write("**Pushdown Automata**")
+                st.write("*insert PDA image*")
         elif regex_input == "((101 + 111 + 101) + (1+0+11)) (1 + 0 + 01)* (111 + 000 + 101) (1+0)*":
             dfa = generate_dfa_visualization(dfa_2)
             st.graphviz_chart(dfa)
+
+            with cfg_and_pda_exp:
+                st.write(regex_input)
+                st.write("**Context Free Grammar**")
+                st.write("*insert CFG image*")
+                st.write("**Pushdown Automata**")
+                st.write("*insert PDA image*")
 
         # Output for string_input, play validation animation on displayed dfa
         if validity_button:
