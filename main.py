@@ -106,7 +106,7 @@ def generate_dfa_visualization(dfa):
         source_state, symbol = transition
         dot.edge(source_state, target_state, label=symbol)
 
-    # Return the Graphviz source code for the DFA visualization
+    # Return the Graphviz graph for the DFA visualization
     return dot
 
 # Validate given string for DFA through an animation going through each state
@@ -174,7 +174,7 @@ def main():
         string_input = st.text_input("Enter a string to check its validity for selected regex", key="string_input", disabled=st.session_state.disabled)
         validity_button = st.button("Validate", disabled=st.session_state.disabled)
         
-        # Output for regex_input, display dfa, cfg, and pda of converted selected regex
+        # Output for regex_input, display dfa, cfg, and pda of selected regex
         if regex_input == "(aba+bab) (a+b)* (bab) (a+b)* (a+b+ab+ba) (a+b+aa)*":
             dfa = generate_dfa_visualization(dfa_1)
             st.graphviz_chart(dfa)
@@ -184,6 +184,7 @@ def main():
                 st.markdown(cfg_1)                
                 st.write("**Pushdown Automata**")
                 st.write(pda_2)
+        
         elif regex_input == "((101 + 111 + 101) + (1+0+11)) (1 + 0 + 01)* (111 + 000 + 101) (1+0)*":
             dfa = generate_dfa_visualization(dfa_2)
             st.graphviz_chart(dfa)
@@ -196,7 +197,7 @@ def main():
 
         # Output for string_input, play validation animation on displayed dfa
         if validity_button:
-            string_input.strip()
+            string_input.strip() # Removes any whitespaces
 
             if len(string_input) == 0:
                 st.warning("Please enter a string to validate first")
