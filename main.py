@@ -58,6 +58,24 @@ dfa_2 = {
     }
 }
 
+# CFG for (aba+bab) (a+b)* (bab) (a+b)* (a+b+ab+ba) (a+b+aa)*
+cfg_1 = '''
+        S -> WXbabXYZ \n
+        W -> aba | bab \n
+        X -> aX | bX | ^ \n
+        Y -> a | b | ab | ba \n
+        Z -> aZ | bZ | aaZ | ^
+        '''
+
+# CFG for ((101 + 111 + 101) + (1+0+11)) (1 + 0 + 01)* (111 + 000 + 101) (1+0)*
+cfg_2 = '''
+        S -> WXYZ \n
+        W -> 101 | 111 | 1 | 0 | 11 \n
+        X -> 1X | 0X | 01X | ^ \n
+        Y -> 111 | 000 | 101 \n
+        Z -> 1Z | 0Z | ^
+        '''
+
 # List of regular expressions assigned to our group
 regex_options = [
     "--- Select ---",
@@ -150,15 +168,14 @@ def main():
         string_input = st.text_input("Enter a string to check its validity for selected regex", key="string_input", disabled=st.session_state.disabled)
         validity_button = st.button("Validate", disabled=st.session_state.disabled)
         
-        # Output for regex_input, display dfa of converted selected regex
+        # Output for regex_input, display dfa, cfg, and pda of converted selected regex
         if regex_input == "(aba+bab) (a+b)* (bab) (a+b)* (a+b+ab+ba) (a+b+aa)*":
             dfa = generate_dfa_visualization(dfa_1)
             st.graphviz_chart(dfa)
 
             with cfg_and_pda_exp:
-                st.write(regex_input)
                 st.write("**Context Free Grammar**")
-                st.write("*insert CFG image*")
+                st.markdown(cfg_1)                
                 st.write("**Pushdown Automata**")
                 st.write("*insert PDA image*")
         elif regex_input == "((101 + 111 + 101) + (1+0+11)) (1 + 0 + 01)* (111 + 000 + 101) (1+0)*":
@@ -166,9 +183,8 @@ def main():
             st.graphviz_chart(dfa)
 
             with cfg_and_pda_exp:
-                st.write(regex_input)
                 st.write("**Context Free Grammar**")
-                st.write("*insert CFG image*")
+                st.markdown(cfg_2)                
                 st.write("**Pushdown Automata**")
                 st.write("*insert PDA image*")
 
