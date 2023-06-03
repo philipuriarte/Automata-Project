@@ -196,7 +196,7 @@ def main():
                 st.write(pda_2)
 
         # Output for string_input, play validation animation on displayed dfa
-        if validity_button:
+        if validity_button or string_input:
             string_input = string_input.replace(" ", "")# Removes any whitespaces
 
             if len(string_input) == 0:
