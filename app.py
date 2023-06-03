@@ -19,7 +19,7 @@ def main():
     
     # Callback function for regex_input
     def regex_input_callbk():
-        # Set disable for string_input and validity_button
+        # Set disable for string_input and validate_button
         if st.session_state.regex_input == "--- Select ---":
             st.session_state.disabled = True
         else:
@@ -85,7 +85,7 @@ def main():
         )
         
         # Validate button to run string validation
-        validity_button = st.button(
+        validate_button = st.button(
             label = "Validate",
             disabled=st.session_state.disabled
         )
@@ -112,7 +112,7 @@ def main():
                 st.write(utils.pda_2)
 
         # Output for string_input, play validation animation on displayed dfa
-        if validity_button or string_input:
+        if validate_button or string_input:
             string_input = string_input.replace(" ", "")# Removes any whitespaces
 
             if len(string_input) == 0:
