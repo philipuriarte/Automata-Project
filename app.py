@@ -121,10 +121,10 @@ def main():
         if validate_button or string_input:
             string_input = string_input.replace(" ", "") # Removes any whitespaces
 
-            # Checks if string_input is empty
+            # Check if string_input is empty
             if len(string_input) == 0:
                 st.warning("Please enter a string to validate first", icon="⚠️")
-            # Checks if string_input has characters not in the alphabet of selected regex
+            # Check if string_input has characters not in the alphabet of selected regex
             elif not all(char in current_dfa["alphabet"] for char in string_input):
                 st.warning(f"String contains invalid characters, please only use characters from the alphabet: {current_dfa['alphabet']}", icon="⚠️")
             else:

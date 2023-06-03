@@ -10,7 +10,7 @@ regex_options = [
 
 # DFA for (aba+bab) (a+b)* (bab) (a+b)* (a+b+ab+ba) (a+b+aa)*
 dfa_1 = {
-    "nodes": ["q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q9", "q10", "q11", "T"],
+    "states": ["q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q9", "q10", "q11", "T"],
     "alphabet": ["a", "b"],
     "start_state": "q1",
     "end_states": ["q10", "q11"],
@@ -42,7 +42,7 @@ dfa_1 = {
 
 # DFA for ((101 + 111 + 101) + (1+0+11)) (1 + 0 + 01)* (111 + 000 + 101) (1+0)*
 dfa_2 = {
-    "nodes": ["q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8"],
+    "states": ["q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8"],
     "alphabet": ["1", "0"],
     "start_state": "q1",
     "end_states": ["q8"],
@@ -93,12 +93,12 @@ pda_2 = "*insert PDA image*" # replace with pda image
 def generate_dfa_visualization(dfa):
     dot = Digraph(engine="dot", graph_attr={'rankdir': 'LR'}, renderer="gd")
 
-    # Add nodes
-    for node in dfa["nodes"]:
-        if node in dfa["end_states"]:
-            dot.node(node, shape="doublecircle")
+    # Add graph nodes for the states
+    for state in dfa["states"]:
+        if state in dfa["end_states"]:
+            dot.node(state, shape="doublecircle")
         else:
-            dot.node(node, shape="circle")
+            dot.node(state, shape="circle")
 
     # Add edges/transitions
     for transition, target_state in dfa["transitions"].items():
