@@ -30,6 +30,8 @@ def main():
             st.session_state.placeholder_text = "abaababbab"
         elif st.session_state.regex_input == utils.regex_options[2]:
             st.session_state.placeholder_text = "101110001"
+        else:
+            st.session_state.placeholder_text = ""  
         
         # Clear string_input
         st.session_state.string_input = ""
