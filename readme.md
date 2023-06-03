@@ -1,5 +1,5 @@
 # Automata Project
-This project is a web application that will convert the given regular expressions below to Deterministic Finite Automata (DFA), Context-Free Grammar (CFG), and Pushdown Automata (PDA).
+This project is a web application that will convert the given regular expressions below to Deterministic Finite Automata (DFA), Context-Free Grammars (CFG), and Pushdown Automata (PDA).
 
 **Regular Expressions**
 1. `(aba+bab) (a+b)* (bab) (a+b)* (a+b+ab+ba) (a+b+aa)*`
