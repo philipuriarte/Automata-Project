@@ -11,10 +11,8 @@ def main():
     )
 
     # Initialize streamlit session state values
-    if "disabled" not in st.session_state:
+    if len(st.session_state) == 0:
         st.session_state.disabled = True
-    
-    if "placeholder_text" not in st.session_state:
         st.session_state.placeholder_text = ""
     
     # Callback function for regex_input
