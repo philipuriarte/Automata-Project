@@ -68,10 +68,27 @@ def main():
             '''
             )
         
-        # Input Widgets
-        regex_input = st.selectbox("Select a Regular Expression", utils.regex_options, key="regex_input", on_change=regex_input_callbk)
-        string_input = st.text_input("Enter a string to check its validity for selected regex", key="string_input", disabled=st.session_state.disabled, placeholder=st.session_state.placeholder_text)
-        validity_button = st.button("Validate", disabled=st.session_state.disabled)
+        # Select box input to select regex
+        regex_input = st.selectbox(
+            label = "Select a Regular Expression",
+            options = utils.regex_options,
+            key="regex_input",
+            on_change=regex_input_callbk
+        )
+        
+        # Text input for string validation
+        string_input = st.text_input(
+            label = "Enter a string to check its validity for selected regex",
+            key="string_input",
+            disabled=st.session_state.disabled,
+            placeholder=st.session_state.placeholder_text
+        )
+        
+        # Validate button to run string validation
+        validity_button = st.button(
+            label = "Validate",
+            disabled=st.session_state.disabled
+        )
         
         # Output for regex_input, display dfa, cfg, and pda of selected regex
         if regex_input == utils.regex_options[1]:
