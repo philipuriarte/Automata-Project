@@ -14,13 +14,24 @@ def main():
     if "disabled" not in st.session_state:
         st.session_state.disabled = True
     
+    if "placeholder_text" not in st.session_state:
+        st.session_state.placeholder_text = ""
+    
     # Callback function for regex_input
     def regex_input_callbk():
+        # Set disable for string_input and validity_button
         if st.session_state.regex_input == "--- Select ---":
             st.session_state.disabled = True
         else:
             st.session_state.disabled = False
         
+        # Set placeholder text for string_input
+        if st.session_state.regex_input == utils.regex_options[1]:
+            st.session_state.placeholder_text = "abaababbab"
+        elif st.session_state.regex_input == utils.regex_options[2]:
+            st.session_state.placeholder_text = "101110001"
+        
+        # Clear string_input
         st.session_state.string_input = ""
     
 
@@ -59,7 +70,7 @@ def main():
         
         # Input Widgets
         regex_input = st.selectbox("Select a Regular Expression", utils.regex_options, key="regex_input", on_change=regex_input_callbk)
-        string_input = st.text_input("Enter a string to check its validity for selected regex", key="string_input", disabled=st.session_state.disabled)
+        string_input = st.text_input("Enter a string to check its validity for selected regex", key="string_input", disabled=st.session_state.disabled, placeholder=st.session_state.placeholder_text)
         validity_button = st.button("Validate", disabled=st.session_state.disabled)
         
         # Output for regex_input, display dfa, cfg, and pda of selected regex
