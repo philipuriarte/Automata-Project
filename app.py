@@ -78,7 +78,7 @@ def main():
         
         # Text input for string validation
         string_input = st.text_input(
-            label = "Enter a string to check its validity for selected regex",
+            label = "Enter a string to check its validity for displayed DFA",
             key="string_input",
             disabled=st.session_state.disabled,
             placeholder=st.session_state.placeholder_text
@@ -93,22 +93,24 @@ def main():
         # Output for regex_input, display dfa, cfg, and pda of selected regex
         if regex_input == utils.regex_options[1]:
             dfa = utils.generate_dfa_visualization(utils.dfa_1)
+            st.write("**Deterministic Finite Automaton**")
             st.graphviz_chart(dfa)
 
             with cfg_and_pda_exp:
                 st.write("**Context Free Grammar**")
                 st.markdown(utils.cfg_1)                
-                st.write("**Pushdown Automata**")
+                st.write("**Pushdown Automaton**")
                 st.write(utils.pda_2)
         
         elif regex_input == utils.regex_options[2]:
             dfa = utils.generate_dfa_visualization(utils.dfa_2)
+            st.write("**Deterministic Finite Automaton**")
             st.graphviz_chart(dfa)
 
             with cfg_and_pda_exp:
                 st.write("**Context Free Grammar**")
                 st.markdown(utils.cfg_2)                
-                st.write("**Pushdown Automata**")
+                st.write("**Pushdown Automaton**")
                 st.write(utils.pda_2)
 
         # Output for string_input, play validation animation on displayed dfa
