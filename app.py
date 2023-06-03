@@ -47,13 +47,13 @@ def main():
 
     # Code block for regex to dfa feature
     with regex_to_dfa_con:
-        st.subheader("Regex to DFA Converter")
+        st.subheader("Regex to DFA, CFG, & PDA")
         st.markdown(
             '''
             1. Select a given Regex from the select box. The application will perform the conversion and display 
-            the resulting DFA on the screen.            
-            2. Enter a string to check if it is a valid string for the DFA and then the program will check the 
-            validity of the string by checking each state.
+            the resulting DFA on the screen. Its corresponding CFG and PDA will be displayed on an expander below the DFA.
+            2. Enter a string to check if it is valid for the DFA and then the program will check the 
+            validity of the string by checking each state through an animation.
             '''
             )
         
