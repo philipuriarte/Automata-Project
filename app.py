@@ -94,7 +94,8 @@ def main():
         
         # Output for regex_input, display dfa, cfg, and pda of selected regex
         if regex_input == utils.regex_options[1]:
-            dfa = utils.generate_dfa_visualization(utils.dfa_1)
+            current_dfa = utils.dfa_1
+            dfa = utils.generate_dfa_visualization(current_dfa)
             st.write("**Deterministic Finite Automaton**")
             st.graphviz_chart(dfa)
 
@@ -105,7 +106,8 @@ def main():
                 st.write(utils.pda_2)
         
         elif regex_input == utils.regex_options[2]:
-            dfa = utils.generate_dfa_visualization(utils.dfa_2)
+            current_dfa = utils.dfa_2
+            dfa = utils.generate_dfa_visualization(current_dfa)
             st.write("**Deterministic Finite Automaton**")
             st.graphviz_chart(dfa)
 
@@ -117,10 +119,14 @@ def main():
 
         # Output for string_input, play validation animation on displayed dfa
         if validate_button or string_input:
-            string_input = string_input.replace(" ", "")# Removes any whitespaces
+            string_input = string_input.replace(" ", "") # Removes any whitespaces
 
+            # Checks if string_input is empty
             if len(string_input) == 0:
                 st.warning("Please enter a string to validate first", icon="⚠️")
+            # Checks if string_input has characters not in the alphabet of selected regex
+            elif not all(char in current_dfa["alphabet"] for char in string_input):
+                st.warning(f"String contains invalid characters, please only use characters from the alphabet: {current_dfa['alphabet']}", icon="⚠️")
             else:
                 st.write("Entered String: ", string_input)
                 st.write("Success!")
