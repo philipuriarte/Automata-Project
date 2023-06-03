@@ -197,7 +197,7 @@ def main():
 
         # Output for string_input, play validation animation on displayed dfa
         if validity_button:
-            string_input.strip() # Removes any whitespaces
+            string_input = string_input.replace(" ", "")# Removes any whitespaces
 
             if len(string_input) == 0:
                 st.warning("Please enter a string to validate first")
