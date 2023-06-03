@@ -63,7 +63,7 @@ def main():
         validity_button = st.button("Validate", disabled=st.session_state.disabled)
         
         # Output for regex_input, display dfa, cfg, and pda of selected regex
-        if regex_input == "(aba+bab) (a+b)* (bab) (a+b)* (a+b+ab+ba) (a+b+aa)*":
+        if regex_input == utils.regex_options[1]:
             dfa = utils.generate_dfa_visualization(utils.dfa_1)
             st.graphviz_chart(dfa)
 
@@ -73,7 +73,7 @@ def main():
                 st.write("**Pushdown Automata**")
                 st.write(utils.pda_2)
         
-        elif regex_input == "((101 + 111 + 101) + (1+0+11)) (1 + 0 + 01)* (111 + 000 + 101) (1+0)*":
+        elif regex_input == utils.regex_options[2]:
             dfa = utils.generate_dfa_visualization(utils.dfa_2)
             st.graphviz_chart(dfa)
 
