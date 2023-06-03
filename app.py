@@ -118,7 +118,7 @@ def main():
             string_input = string_input.replace(" ", "")# Removes any whitespaces
 
             if len(string_input) == 0:
-                st.warning("Please enter a string to validate first")
+                st.warning("Please enter a string to validate first", icon="⚠️")
             else:
                 st.write("Entered String: ", string_input)
                 st.write("Success!")
