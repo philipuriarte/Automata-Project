@@ -110,5 +110,12 @@ def generate_dfa_visualization(dfa):
 
 # Validate given string for DFA through an animation going through each state
 def validate_dfa(dfa, string):
-    pass
+    current_state = dfa["start_state"]
+    for char in string:
+        if (current_state, char) in dfa["transitions"]:
+            current_state = dfa["transitions"][(current_state, char)]
+        else:
+            return False
+    return current_state in dfa["end_states"]
+
 

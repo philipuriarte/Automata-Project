@@ -127,9 +127,14 @@ def main():
                 st.warning(f"String contains invalid characters, please only use characters from the alphabet: {current_dfa['alphabet']}", icon="⚠️")
             else:
                 st.write("Entered String: ", string_input)
-                st.write("Success!")
+                is_valid = utils.validate_dfa(current_dfa, string_input)
+                if is_valid:
+                    st.write("The string is valid for the DFA.")
+                else:
+                    st.write("The string is not valid for the DFA.")
                 st.write("*Display Animation*")
-                st.write("String Validation not implemented yet")
+    
+
 
 
 if __name__ == "__main__":
