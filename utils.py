@@ -164,7 +164,18 @@ def generate_pda_visualization(pda):
     return dot
 
 
-# Validate given string for DFA through an animation going through each state
+# Validate given string for DFA 
 def validate_dfa(dfa, string):
-    pass
+    current_state = dfa["start_state"]
+    for char in string:
+        found_transition = False
+        for transition, target_state in dfa["transitions"].items():
+            state, symbols = transition
+            if state == current_state and char in symbols:
+                current_state = target_state
+                found_transition = True
+                break
+        if not found_transition:
+            return False
+    return current_state in dfa["end_states"]
 
