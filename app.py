@@ -107,7 +107,8 @@ def main():
                 st.graphviz_chart(pda)
         
         elif regex_input == utils.regex_options[2]:
-            dfa = utils.generate_dfa_visualization(utils.dfa_2)
+            current_dfa = utils.dfa_2
+            dfa = utils.generate_dfa_visualization(current_dfa)
             st.write("**Deterministic Finite Automaton**")
             st.graphviz_chart(dfa)
 
