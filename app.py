@@ -135,9 +135,9 @@ def main():
                 st.write(f"Entered String: `{string_input}`")
                 is_valid = utils.validate_dfa(current_dfa, string_input)
                 if is_valid:
-                    st.success("The string is valid for the DFA.")
+                    st.success("The string is valid for the DFA.", icon="✔️")
                 else:
-                    st.error("The string is not valid for the DFA.")
+                    st.error("The string is not valid for the DFA.", icon="❌")
                 st.write("*Display Animation*")
             
 
