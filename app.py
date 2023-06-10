@@ -99,19 +99,22 @@ def main():
 
             with cfg_and_pda_exp:
                 st.write("**Context Free Grammar**")
-                st.markdown(utils.cfg_1)                
+                st.markdown(utils.cfg_1)
+
                 st.write("**Pushdown Automaton**")
-                st.write(utils.pda_2)
+                current_pda = utils.pda_1
+                pda = utils.generate_pda_visualization(current_pda)
+                st.graphviz_chart(pda)
         
         elif regex_input == utils.regex_options[2]:
-            current_dfa = utils.dfa_2
-            dfa = utils.generate_dfa_visualization(current_dfa)
+            dfa = utils.generate_dfa_visualization(utils.dfa_2)
             st.write("**Deterministic Finite Automaton**")
             st.graphviz_chart(dfa)
 
             with cfg_and_pda_exp:
                 st.write("**Context Free Grammar**")
-                st.markdown(utils.cfg_2)                
+                st.markdown(utils.cfg_2)
+                
                 st.write("**Pushdown Automaton**")
                 st.write(utils.pda_2)
 

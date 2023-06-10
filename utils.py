@@ -82,8 +82,41 @@ cfg_2 = '''
         Z -> 1Z | 0Z | ^
         '''
 
-# PDA image for (aba+bab) (a+b)* (bab) (a+b)* (a+b+ab+ba) (a+b+aa)*
-pda_1 = "*insert PDA image*" # replace with pda image
+# PDA for (aba+bab) (a+b)* (bab) (a+b)* (a+b+ab+ba) (a+b+aa)*
+pda_1 = {
+    "states": ["Start", "Read1", "Read2", "Read3", "Read4", "Read5", "Read6", "Read7", 
+               "Read8", "Read9", "Read10", "Read11", "Read12", "Read13", "Accept1", "Accept2"],
+    "alphabet": ["a", "b"],
+    "start_state": "Start",
+    "push_states": [None],
+    "pop_states": [None],
+    "accept_states": ["Accept1", "Accept2"],
+    "transitions": {
+        ("Start", ""): "Read1",
+        ("Read1", "a"): "Read2",
+        ("Read1", "b"): "Read3",
+        ("Read2", "b"): "Read4",
+        ("Read3", "a"): "Read5",
+        ("Read4", "a"): "Read6",
+        ("Read5", "b"): "Read6",
+        ("Read6", "b"): "Read7",
+        ("Read7", "a"): "Read8",
+        ("Read8", "b"): "Read9",
+        ("Read9", "a"): "Read10",
+        ("Read9", "b"): "Read11",
+        ("Read10", "b"): "Read12",
+        ("Read11", "a"): "Read13",
+        ("Read10", "^"): "Accept1",
+        ("Read11", "^"): "Accept1",
+        ("Read12", "a, b, ^"): "Accept2",
+        ("Read13", "a, b, ^"): "Accept2",
+        ("Read6", "a"): "Read6",
+        ("Read7", "b"): "Read7",
+        ("Read8", "a"): "Read6",
+        ("Read10", "a"): "Read10",
+        ("Read11", "b"): "Read11",
+    }
+}
 
 # PDA image for ((101 + 111 + 101) + (1+0+11)) (1 + 0 + 01)* (111 + 000 + 101) (1+0)*
 pda_2 = "*insert PDA image*" # replace with pda image
@@ -108,7 +141,30 @@ def generate_dfa_visualization(dfa):
     # Return the Graphviz graph for the DFA visualization
     return dot
 
-# Validate given string for DFA.
+
+# Generate PDA visualization using Graphviz
+def generate_pda_visualization(pda):
+    dot = Digraph(engine="dot", renderer="gd")
+
+    # Add graph nodes for the states
+    for state in pda["states"]:
+        if state in pda["start_state"] or state in pda["accept_states"]:
+            dot.node(state, shape="ellipse")
+        elif state in pda["push_states"]:
+            dot.node(state, shape="rectangle")
+        else:
+            dot.node(state, shape="diamond")
+
+    # Add edges/transitions
+    for transition, target_state in pda["transitions"].items():
+        source_state, symbol = transition
+        dot.edge(source_state, target_state, label=symbol)
+
+    # Return the Graphviz graph for the DFA visualization
+    return dot
+
+
+# Validate given string for DFA 
 def validate_dfa(dfa, string):
     current_state = dfa["start_state"]
     for char in string:
