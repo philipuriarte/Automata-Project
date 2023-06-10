@@ -117,14 +117,16 @@ def main():
 
         # Output for string_input, play validation animation on displayed dfa
         if validate_button or string_input:
-            string_input = string_input.replace(" ", "") # Removes any whitespaces
+            string_input = string_input.replace(" ", "")  # Removes any whitespaces
 
             # Check if string_input is empty
             if len(string_input) == 0:
                 st.warning("Please enter a string to validate first", icon="⚠️")
             # Check if string_input has characters not in the alphabet of selected regex
             elif not all(char in current_dfa["alphabet"] for char in string_input):
-                st.warning(f"String contains invalid characters, please only use characters from the alphabet: {current_dfa['alphabet']}", icon="⚠️")
+                st.warning(
+                    f"String contains invalid characters, please only use characters from the alphabet: {current_dfa['alphabet']}",
+                    icon="⚠️")
             else:
                 st.write("Entered String: ", string_input)
                 is_valid = utils.validate_dfa(current_dfa, string_input)
@@ -133,7 +135,7 @@ def main():
                 else:
                     st.write("The string is not valid for the DFA.")
                 st.write("*Display Animation*")
-    
+            
 
 
 

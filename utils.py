@@ -108,14 +108,18 @@ def generate_dfa_visualization(dfa):
     # Return the Graphviz graph for the DFA visualization
     return dot
 
-# Validate given string for DFA through an animation going through each state
+# Validate given string for DFA.
 def validate_dfa(dfa, string):
     current_state = dfa["start_state"]
     for char in string:
-        if (current_state, char) in dfa["transitions"]:
-            current_state = dfa["transitions"][(current_state, char)]
-        else:
+        found_transition = False
+        for transition, target_state in dfa["transitions"].items():
+            state, symbols = transition
+            if state == current_state and char in symbols:
+                current_state = target_state
+                found_transition = True
+                break
+        if not found_transition:
             return False
     return current_state in dfa["end_states"]
-
 
