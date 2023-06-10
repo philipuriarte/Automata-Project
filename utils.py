@@ -167,15 +167,20 @@ def generate_pda_visualization(pda):
 # Validate given string for DFA 
 def validate_dfa(dfa, string):
     current_state = dfa["start_state"]
+
+    # Iterate through each character in string
     for char in string:
         found_transition = False
+        # Iterate through each transition of the dfa
         for transition, target_state in dfa["transitions"].items():
             state, symbols = transition
             if state == current_state and char in symbols:
                 current_state = target_state
                 found_transition = True
                 break
+        # Return False if current character in the string is not in the dfa transitions
         if not found_transition:
             return False
+    # Return True if last current_state is in the dfa's end_states, else False
     return current_state in dfa["end_states"]
 
