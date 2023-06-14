@@ -166,21 +166,31 @@ def generate_pda_visualization(pda):
 
 # Validate given string for DFA 
 def validate_dfa(dfa, string):
+    state_checks = []
     current_state = dfa["start_state"]
 
     # Iterate through each character in string
     for char in string:
-        found_transition = False
-        # Iterate through each transition of the dfa
-        for transition, target_state in dfa["transitions"].items():
-            state, symbols = transition
-            if state == current_state and char in symbols:
-                current_state = target_state
-                found_transition = True
-                break
-        # Return False if current character in the string is not in the dfa transitions
-        if not found_transition:
-            return False
-    # Return True if last current_state is in the dfa's end_states, else False
-    return current_state in dfa["end_states"]
+        # Check if transition has "0,1", if so replace char with "0,1"
+        if (current_state,"0,1") in dfa["transitions"].keys():
+            char = "0,1"
+        
+        transition = (current_state, char)
+        transition_exists = transition in dfa["transitions"].keys()
+        state_checks.append((current_state, transition_exists))
 
+        # Check if current char is in transitions
+        if transition_exists:
+            current_state = dfa["transitions"][transition]
+        # Return False if current character in the string is not in the dfa transitions
+        else:
+            return False
+    
+    # Add state check for last transition
+    if current_state in dfa["end_states"]:
+        state_checks.append((current_state, True))
+    else:
+        state_checks.append((current_state, False))
+
+    # Return True if last current_state is in the dfa's end_states, else False, and state_checks array
+    return (current_state in dfa["end_states"], state_checks)
