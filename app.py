@@ -92,44 +92,55 @@ def main():
         
         # Output for regex_input, display dfa, cfg, and pda of selected regex
         if regex_input == utils.regex_options[1]:
-            current_dfa = utils.dfa_1
-            dfa = utils.generate_dfa_visualization(current_dfa)
+            current_dfa = utils.dfa_1            
             st.write("**Deterministic Finite Automaton**")
-            st.graphviz_chart(dfa)
+            if not validate_button or not string_input:
+                dfa = utils.generate_dfa_visualization(current_dfa)
+                st.graphviz_chart(dfa)
 
             with cfg_and_pda_exp:
                 st.write("**Context Free Grammar**")
-                st.markdown(utils.cfg_1)                
+                st.markdown(utils.cfg_1)
+
                 st.write("**Pushdown Automaton**")
-                st.write(utils.pda_2)
+                current_pda = utils.pda_1
+                pda = utils.generate_pda_visualization(current_pda)
+                st.graphviz_chart(pda)
         
         elif regex_input == utils.regex_options[2]:
-            current_dfa = utils.dfa_2
-            dfa = utils.generate_dfa_visualization(current_dfa)
+            current_dfa = utils.dfa_2            
             st.write("**Deterministic Finite Automaton**")
-            st.graphviz_chart(dfa)
+            if not validate_button or not string_input:
+                dfa = utils.generate_dfa_visualization(current_dfa)
+                st.graphviz_chart(dfa)
 
             with cfg_and_pda_exp:
                 st.write("**Context Free Grammar**")
-                st.markdown(utils.cfg_2)                
+                st.markdown(utils.cfg_2)
+                
                 st.write("**Pushdown Automaton**")
                 st.write(utils.pda_2)
 
         # Output for string_input, play validation animation on displayed dfa
         if validate_button or string_input:
-            string_input = string_input.replace(" ", "") # Removes any whitespaces
+            string_input = string_input.replace(" ", "")  # Removes any whitespaces
 
             # Check if string_input is empty
             if len(string_input) == 0:
                 st.warning("Please enter a string to validate first", icon="⚠️")
             # Check if string_input has characters not in the alphabet of selected regex
             elif not all(char in current_dfa["alphabet"] for char in string_input):
-                st.warning(f"String contains invalid characters, please only use characters from the alphabet: {current_dfa['alphabet']}", icon="⚠️")
+                st.warning(
+                    f"String contains invalid characters, please only use characters from the alphabet: {current_dfa['alphabet']}",
+                    icon="⚠️")
             else:
-                st.write("Entered String: ", string_input)
-                st.write("Success!")
-                st.write("*Display Animation*")
-                st.write("String Validation not implemented yet")
+                st.write(f"Entered String: `{string_input}`")
+                is_valid = utils.validate_dfa(current_dfa, string_input)
+                utils.animate_dfa_validation(current_dfa, is_valid[1])
+                if is_valid[0]:
+                    st.success("The string is valid for the DFA.", icon="✔️")
+                else:
+                    st.error("The string is not valid for the DFA.", icon="❌")
 
 
 if __name__ == "__main__":
