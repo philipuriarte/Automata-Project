@@ -119,7 +119,9 @@ def main():
                 st.markdown(utils.cfg_2)
                 
                 st.write("**Pushdown Automaton**")
-                st.write(utils.pda_2)
+                current_pda = utils.pda_2
+                pda = utils.generate_pda_visualization(current_pda)
+                st.graphviz_chart(pda)
 
         # Output for string_input, play validation animation on displayed dfa
         if validate_button or string_input:
