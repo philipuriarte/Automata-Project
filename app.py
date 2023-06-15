@@ -129,12 +129,10 @@ def main():
 
             # Check if string_input is empty
             if len(string_input) == 0:
-                st.warning("Please enter a string to validate first", icon="⚠️")
+                st.error("Empty/Invalid Input", icon="❌")
             # Check if string_input has characters not in the alphabet of selected regex
             elif not all(char in current_dfa["alphabet"] for char in string_input):
-                st.warning(
-                    f"String contains invalid characters, please only use characters from the alphabet: {current_dfa['alphabet']}",
-                    icon="⚠️")
+                st.error(f"String contains invalid characters, please only use characters from the alphabet: {current_dfa['alphabet']}", icon="❌")
             else:
                 st.write(f"Entered String: `{string_input}`")
                 is_valid = utils.validate_dfa(current_dfa, string_input)
