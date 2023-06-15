@@ -1,5 +1,6 @@
 from graphviz import Digraph
-
+import streamlit as st
+import time
 
 # List of regular expressions assigned to our group
 regex_options = [
@@ -192,5 +193,65 @@ def validate_dfa(dfa, string):
     else:
         state_checks.append((current_state, False))
 
-    # Return True if last current_state is in the dfa's end_states, else False, and state_checks array
+    # Call the animation function to visualize the DFA validation
+    result, state_checks = animate_dfa_validation(dfa, string)
+
+    # Return the validation result and state_checks array
+    return result, state_checks
+
+
+def animate_dfa_validation(dfa, string):
+    state_checks = []
+    current_state = dfa["start_state"]
+    
+    dot = generate_dfa_visualization(dfa)  # Generate the DFA visualization
+    dot.node(current_state, style="filled", fillcolor="yellow")  # Set initial state to yellow
+
+    # Create a Streamlit Graphviz component
+    graph = st.graphviz_chart(dot.source, use_container_width=True)
+
+    # Iterate through each character in the string
+    for char in string:
+        time.sleep(1)  # Add a delay for visualization purposes
+
+        # Check if transition has "0,1", if so replace char with "0,1"
+        if (current_state, "0,1") in dfa["transitions"]:
+            char = "0,1"
+
+        transition = (current_state, char)
+        transition_exists = transition in dfa["transitions"]
+
+        # Update the state_checks array with the current state and transition existence
+        state_checks.append((current_state, transition_exists))
+
+        # Check if the current character is in transitions
+        if transition_exists:
+            current_state = dfa["transitions"][transition]
+        else:
+            # Return False if the current character in the string is not in the DFA transitions
+            return False
+
+        # Update the DFA visualization by setting the current state to yellow
+        dot.node(current_state, style="filled", fillcolor="yellow")
+
+        # Render the updated visualization
+        graph.graphviz_chart(dot.source, use_container_width=True)
+
+        # Set the previous state back to its original style (white)
+        dot.node(current_state, style="filled", fillcolor="white")
+
+    time.sleep(1)  # Add a delay for visualization purposes
+
+    # Add state check for the last transition
+    if current_state in dfa["end_states"]:
+        state_checks.append((current_state, True))
+        dot.node(current_state, style="filled", fillcolor="green")  # Set the end state to green
+    else:
+        state_checks.append((current_state, False))
+        dot.node(current_state, style="filled", fillcolor="red")  # Set an invalid state to red
+
+    # Render the final visualization
+    graph.graphviz_chart(dot.source, use_container_width=True)
+
+    # Return the validation result and state_checks array
     return (current_state in dfa["end_states"], state_checks)
