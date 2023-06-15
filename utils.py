@@ -120,8 +120,33 @@ pda_1 = {
     }
 }
 
-# PDA image for ((101 + 111 + 101) + (1+0+11)) (1 + 0 + 01)* (111 + 000 + 101) (1+0)*
-pda_2 = "*insert PDA image*" # replace with pda image
+# PDA for ((101 + 111 + 101) + (1+0+11)) (1 + 0 + 01)* (111 + 000 + 101) (1+0)*
+pda_2 = {
+    "states": ["Start", "Read1", "Read2", "Read3", "Read4", "Read5", "Read6", "Read7", "Accept"],
+    "alphabet": ["1", "0"],
+    "start_state": "Start",
+    "push_states": [None],
+    "pop_states": [None],
+    "accept_states": ["Accept"],
+    "transitions": {
+        ("Start", ""): "Read1",
+        ("Read1", "0"): "Read2",
+        ("Read1", "1"): "Read3",
+        ("Read2", "0"): "Read4",
+        ("Read2", "1"): "Read3",
+        ("Read3", "0"): "Read6",
+        ("Read3", "1"): "Read5",        
+        ("Read5", "0"): "Read6",
+        ("Read4", "0"): "Read7",        
+        ("Read4", "1"): "Read3",
+        ("Read5", "1"): "Read7",
+        ("Read6", "1"): "Read7",
+        ("Read6", "0"): "Read2",
+        ("Read7", "0,1"): "Read7",
+        ("Read7", "^"): "Accept",
+    }
+}
+
 
 
 # Generate DFA visualization using Graphviz
