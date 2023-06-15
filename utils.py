@@ -26,6 +26,7 @@ dfa_1 = {
         ("q3", "b"): "T",
         ("q4", "b"): "T",
         ("q5", "a"): "T",
+        ("T", "a,b"): "T",
         ("q6", "a"): "q6",
         ("q6", "b"): "q7",
         ("q7", "b"): "q7",
@@ -175,6 +176,10 @@ def validate_dfa(dfa, string):
         # Check if transition has "0,1", if so replace char with "0,1"
         if (current_state,"0,1") in dfa["transitions"].keys():
             char = "0,1"
+        
+        # Check if transition has "a,b", if so replace char with "a,b"
+        if (current_state,"a,b") in dfa["transitions"].keys():
+            char = "a,b"
         
         transition = (current_state, char)
         transition_exists = transition in dfa["transitions"].keys()
