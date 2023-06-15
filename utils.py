@@ -1,5 +1,6 @@
 from graphviz import Digraph
-
+import streamlit as st
+import time
 
 # List of regular expressions assigned to our group
 regex_options = [
@@ -25,6 +26,7 @@ dfa_1 = {
         ("q3", "b"): "T",
         ("q4", "b"): "T",
         ("q5", "a"): "T",
+        ("T", "a,b"): "T",
         ("q6", "a"): "q6",
         ("q6", "b"): "q7",
         ("q7", "b"): "q7",
@@ -166,21 +168,63 @@ def generate_pda_visualization(pda):
 
 # Validate given string for DFA 
 def validate_dfa(dfa, string):
+    state_checks = []
     current_state = dfa["start_state"]
 
     # Iterate through each character in string
     for char in string:
-        found_transition = False
-        # Iterate through each transition of the dfa
-        for transition, target_state in dfa["transitions"].items():
-            state, symbols = transition
-            if state == current_state and char in symbols:
-                current_state = target_state
-                found_transition = True
-                break
-        # Return False if current character in the string is not in the dfa transitions
-        if not found_transition:
-            return False
-    # Return True if last current_state is in the dfa's end_states, else False
-    return current_state in dfa["end_states"]
+        # Check if transition has "0,1", if so replace char with "0,1"
+        if (current_state,"0,1") in dfa["transitions"].keys():
+            char = "0,1"
+        
+        # Check if transition has "a,b", if so replace char with "a,b"
+        if (current_state,"a,b") in dfa["transitions"].keys():
+            char = "a,b"
+        
+        transition = (current_state, char)
+        transition_exists = transition in dfa["transitions"].keys()
+        state_checks.append((current_state, transition_exists))
 
+        # Check if current char is in transitions
+        if transition_exists:
+            current_state = dfa["transitions"][transition]
+        # Return False if current character in the string is not in the dfa transitions
+        else:
+            return False
+    
+    # Add state check for last transition
+    if current_state in dfa["end_states"]:
+        state_checks.append((current_state, True))
+    else:
+        state_checks.append((current_state, False))
+
+    result = current_state in dfa["end_states"] # Checks if last current_state is in dfa end_states
+
+    # Return the validation result and state_checks array
+    return (result, state_checks)
+
+
+# Generate validation animation
+def animate_dfa_validation(dfa, state_checks):
+    dot = generate_dfa_visualization(dfa)  # Generate the DFA visualization
+    graph = st.graphviz_chart(dot.source, use_container_width=True) # Create a Streamlit Graphviz component
+
+    # Iterate through each state in state_checks
+    for state in state_checks:
+        time.sleep(1)  # Add a delay for visualization purposes
+
+        if state[1] and state is state_checks[-1]:
+            dot.node(state[0], style="filled", fillcolor="green")  # Set end state to green
+            graph.graphviz_chart(dot.source, use_container_width=True) # Render the updated visualization
+
+        elif not state[1]:
+            dot.node(state[0], style="filled", fillcolor="red")  # Set invalid state to red
+            graph.graphviz_chart(dot.source, use_container_width=True) # Render the updated visualization
+
+        elif state[1]:
+            dot.node(state[0], style="filled", fillcolor="yellow") # Set state to yellow if True                
+            graph.graphviz_chart(dot.source, use_container_width=True) # Render the updated visualization
+
+            time.sleep(0.5)  # Add a delay for blink effect
+            dot.node(state[0], style="filled", fillcolor="white") # Set previous state back to white            
+            graph.graphviz_chart(dot.source, use_container_width=True) # Render the updated visualization

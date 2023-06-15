@@ -92,10 +92,11 @@ def main():
         
         # Output for regex_input, display dfa, cfg, and pda of selected regex
         if regex_input == utils.regex_options[1]:
-            current_dfa = utils.dfa_1
-            dfa = utils.generate_dfa_visualization(current_dfa)
+            current_dfa = utils.dfa_1            
             st.write("**Deterministic Finite Automaton**")
-            st.graphviz_chart(dfa)
+            if not validate_button or not string_input:
+                dfa = utils.generate_dfa_visualization(current_dfa)
+                st.graphviz_chart(dfa)
 
             with cfg_and_pda_exp:
                 st.write("**Context Free Grammar**")
@@ -107,10 +108,11 @@ def main():
                 st.graphviz_chart(pda)
         
         elif regex_input == utils.regex_options[2]:
-            current_dfa = utils.dfa_2
-            dfa = utils.generate_dfa_visualization(current_dfa)
+            current_dfa = utils.dfa_2            
             st.write("**Deterministic Finite Automaton**")
-            st.graphviz_chart(dfa)
+            if not validate_button or not string_input:
+                dfa = utils.generate_dfa_visualization(current_dfa)
+                st.graphviz_chart(dfa)
 
             with cfg_and_pda_exp:
                 st.write("**Context Free Grammar**")
@@ -134,13 +136,11 @@ def main():
             else:
                 st.write(f"Entered String: `{string_input}`")
                 is_valid = utils.validate_dfa(current_dfa, string_input)
-                if is_valid:
+                utils.animate_dfa_validation(current_dfa, is_valid[1])
+                if is_valid[0]:
                     st.success("The string is valid for the DFA.", icon="✔️")
                 else:
                     st.error("The string is not valid for the DFA.", icon="❌")
-                st.write("*Display Animation*")
-            
-
 
 
 if __name__ == "__main__":
