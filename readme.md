@@ -3,10 +3,12 @@
 This project is a web application that converts given regular expressions to Deterministic Finite Automata (DFA), Context-Free Grammars (CFG), and Pushdown Automata (PDA).
 
 ## Python Libraries Used
+
 - Streamlit: Web application framework used to build the user interface.
-- Graphviz: Library used for generating DFA graphical visualization.
+- Graphviz: Library used for generating DFA and PDA graphical visualizations.
 
 ## Regular Expressions
+
 1. `(aba+bab) (a+b)* (bab) (a+b)* (a+b+ab+ba) (a+b+aa)*`
 2. `((101 + 111 + 101) + (1+0+11)) (1 + 0 + 01)* (111 + 000 + 101) (1+0)*`
 
@@ -61,7 +63,6 @@ The `generate_pda_visualization` function generates a Graphviz graph for visuali
 #### String Validation
 
 The `validate_dfa` function validates a given string for a DFA. It checks each character of the string against the transitions of the DFA and returns a list of state checks indicating whether the transitions exist for each character. The function also handles special cases where transitions have multiple symbols
-
 
 ## Developers
 - De Salit, John Patrick
