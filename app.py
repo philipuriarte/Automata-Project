@@ -138,9 +138,9 @@ def main():
                 is_valid, path = utils.validate_dfa(current_dfa, string_input)
                 utils.animate_dfa_validation(current_dfa, path)
                 if is_valid:
-                    st.success("The string is valid for the DFA.", icon="✔️")
+                    st.success(f"The string '{string_input}' is valid for the DFA.", icon="✔️")
                 else:
-                    st.error("The string is not valid for the DFA.", icon="❌")
+                    st.error(f"The string '{string_input}' is not valid for the DFA.", icon="❌")
 
 
 if __name__ == "__main__":
