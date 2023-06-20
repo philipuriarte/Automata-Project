@@ -135,9 +135,9 @@ def main():
                 st.error(f"String contains invalid characters, please only use characters from the alphabet: {current_dfa['alphabet']}", icon="❌")
             else:
                 st.write(f"Entered String: `{string_input}`")
-                is_valid = utils.validate_dfa(current_dfa, string_input)
-                utils.animate_dfa_validation(current_dfa, is_valid[1])
-                if is_valid[0]:
+                is_valid, path = utils.validate_dfa(current_dfa, string_input)
+                utils.animate_dfa_validation(current_dfa, path)
+                if is_valid:
                     st.success("The string is valid for the DFA.", icon="✔️")
                 else:
                     st.error("The string is not valid for the DFA.", icon="❌")
