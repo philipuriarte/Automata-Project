@@ -94,7 +94,7 @@ def main():
         if regex_input == utils.regex_options[1]:
             current_dfa = utils.dfa_1            
             st.write("**Deterministic Finite Automaton**")
-            if not validate_button or not string_input:
+            if not string_input:
                 dfa = utils.generate_dfa_visualization(current_dfa)
                 st.graphviz_chart(dfa)
 
@@ -110,7 +110,7 @@ def main():
         elif regex_input == utils.regex_options[2]:
             current_dfa = utils.dfa_2            
             st.write("**Deterministic Finite Automaton**")
-            if not validate_button or not string_input:
+            if not string_input:
                 dfa = utils.generate_dfa_visualization(current_dfa)
                 st.graphviz_chart(dfa)
 
