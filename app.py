@@ -94,7 +94,7 @@ def main():
         if regex_input == utils.regex_options[1]:
             current_dfa = utils.dfa_1            
             st.write("**Deterministic Finite Automaton**")
-            if not validate_button or not string_input:
+            if not string_input:
                 dfa = utils.generate_dfa_visualization(current_dfa)
                 st.graphviz_chart(dfa)
 
@@ -110,7 +110,7 @@ def main():
         elif regex_input == utils.regex_options[2]:
             current_dfa = utils.dfa_2            
             st.write("**Deterministic Finite Automaton**")
-            if not validate_button or not string_input:
+            if not string_input:
                 dfa = utils.generate_dfa_visualization(current_dfa)
                 st.graphviz_chart(dfa)
 
@@ -130,17 +130,19 @@ def main():
             # Check if string_input is empty
             if len(string_input) == 0:
                 st.error("Empty/Invalid Input", icon="❌")
+            
             # Check if string_input has characters not in the alphabet of selected regex
             elif not all(char in current_dfa["alphabet"] for char in string_input):
-                st.error(f"String contains invalid characters, please only use characters from the alphabet: {current_dfa['alphabet']}", icon="❌")
+                st.error(f"String '{string_input}' contains invalid characters, please only use characters from the alphabet: {current_dfa['alphabet']}", icon="❌")
+            
             else:
                 st.write(f"Entered String: `{string_input}`")
-                is_valid = utils.validate_dfa(current_dfa, string_input)
-                utils.animate_dfa_validation(current_dfa, is_valid[1])
-                if is_valid[0]:
-                    st.success("The string is valid for the DFA.", icon="✔️")
+                is_valid, state_checks = utils.validate_dfa(current_dfa, string_input)
+                utils.animate_dfa_validation(current_dfa, state_checks)
+                if is_valid:
+                    st.success(f"The string '{string_input}' is valid for the DFA.", icon="✔️")
                 else:
-                    st.error("The string is not valid for the DFA.", icon="❌")
+                    st.error(f"The string '{string_input}' is not valid for the DFA.", icon="❌")
 
 
 if __name__ == "__main__":

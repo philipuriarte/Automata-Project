@@ -236,21 +236,23 @@ def animate_dfa_validation(dfa, state_checks):
     graph = st.graphviz_chart(dot.source, use_container_width=True) # Create a Streamlit Graphviz component
 
     # Iterate through each state in state_checks
-    for state in state_checks:
+    for state_check in state_checks:
+        state, is_valid = state_check
+
         time.sleep(1)  # Add a delay for visualization purposes
 
-        if state[1] and state is state_checks[-1]:
-            dot.node(state[0], style="filled", fillcolor="green")  # Set end state to green
+        if is_valid and state in dfa["end_states"]:
+            dot.node(state, style="filled", fillcolor="green")  # Set end state to green
             graph.graphviz_chart(dot.source, use_container_width=True) # Render the updated visualization
 
-        elif not state[1]:
-            dot.node(state[0], style="filled", fillcolor="red")  # Set invalid state to red
+        elif not is_valid:
+            dot.node(state, style="filled", fillcolor="red")  # Set invalid state to red
             graph.graphviz_chart(dot.source, use_container_width=True) # Render the updated visualization
 
-        elif state[1]:
-            dot.node(state[0], style="filled", fillcolor="yellow") # Set state to yellow if True                
+        else:
+            dot.node(state, style="filled", fillcolor="yellow") # Set state to yellow if True                
             graph.graphviz_chart(dot.source, use_container_width=True) # Render the updated visualization
 
             time.sleep(0.5)  # Add a delay for blink effect
-            dot.node(state[0], style="filled", fillcolor="white") # Set previous state back to white            
+            dot.node(state, style="filled", fillcolor="white") # Set previous state back to white            
             graph.graphviz_chart(dot.source, use_container_width=True) # Render the updated visualization
